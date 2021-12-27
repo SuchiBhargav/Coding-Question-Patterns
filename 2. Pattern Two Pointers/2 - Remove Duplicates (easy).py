@@ -15,39 +15,38 @@ Output: 2
 Explanation: The first two elements after removing the duplicates will be [2, 11].
 '''
 
-#mycode
+
+# mycode
 def remove_duplicates(arr):
-  # TODO: Write your code here
-  i, result = 1, 1
-  while i < len(arr):
-    if arr[i] != arr[i-1]:
-      result += 1
-    i+=1
-  return result
+    i, result = 0, 1
+    while i < len(arr)-1:
+        if arr[i] != arr[i + 1]:
+            result += 1
+        i += 1
+    return result
 
 
-#answer
+# answer
 def remove_duplicates(arr):
-  # index of the next non-duplicate element
-  next_non_duplicate = 1
+    # index of the next non-duplicate element
+    next_non_duplicate = 1
 
-  i = 1
-  while(i < len(arr)):
-    if arr[next_non_duplicate - 1] != arr[i]:
-      arr[next_non_duplicate] = arr[i]
-      next_non_duplicate += 1
-    i += 1
+    i = 1
+    while (i < len(arr)):
+        if arr[next_non_duplicate - 1] != arr[i]:
+            arr[next_non_duplicate] = arr[i]
+            next_non_duplicate += 1
+        i += 1
 
-  return next_non_duplicate
+    return next_non_duplicate
 
 
 def main():
-  print(remove_duplicates([2, 3, 3, 3, 6, 9, 9]))
-  print(remove_duplicates([2, 2, 2, 11]))
+    print(remove_duplicates([2, 3, 3, 3, 6, 9, 9]))
+    print(remove_duplicates([2, 2, 2, 11]))
 
 
 main()
-
 
 '''
 Time Complexity 
@@ -57,7 +56,6 @@ where ‘N’ is the total number of elements in the given array.
 Space Complexity 
 The algorithm runs in constant space O(1).
 '''
-
 
 '''
 Similar Questions #
@@ -76,21 +74,22 @@ Output: 2
 Explanation: The first two elements after removing every 'Key' will be [11, 1].
 '''
 
-def remove_element(arr, key):
-  nextElement = 0  # index of the next element which is not 'key'
-  for i in range(len(arr)):
-    if arr[i] != key:
-      arr[nextElement] = arr[i]
-      nextElement += 1
 
-  return nextElement
+def remove_element(arr, key):
+    nextElement = 0  # index of the next element which is not 'key'
+    for i in range(len(arr)):
+        if arr[i] != key:
+            arr[nextElement] = arr[i]
+            nextElement += 1
+
+    return nextElement
 
 
 def main():
-  print("Array new length: " +
-        str(remove_element([3, 2, 3, 6, 3, 10, 9, 3], 3)))
-  print("Array new length: " +
-        str(remove_element([2, 11, 2, 2, 1], 2)))
+    print("Array new length: " +
+          str(remove_element([3, 2, 3, 6, 3, 10, 9, 3], 3)))
+    print("Array new length: " +
+          str(remove_element([2, 11, 2, 2, 1], 2)))
 
 
 main()
