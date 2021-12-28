@@ -27,9 +27,10 @@ Explanation: All employess are free between [5,7].
 '''
 
 
-#mycode
-from __future__ import print_function
+from heapq import *
 
+
+# mycode
 class Interval:
     def __init__(self, start, end):
         self.start = start
@@ -39,23 +40,51 @@ class Interval:
         print("[" + str(self.start) + ", " + str(self.end) + "]", end='')
 
 
-def find_employee_free_time(schedule):
-    result = []
-    # TODO: Write your code here
-    temp = []
+class EmployeeInterval:
 
-    for i in schedule:
-        for j in i:
-            temp.append(j)
-    temp.sort(key=lambda x: x.start)
-    for i in range(1,len(temp)):
-        if temp[i].start > temp[i-1].end:
-            result.append(Interval(temp[i-1].end,temp[i].start))
+    def __init__(self, interval, employeeIndex, intervalIndex):
+        self.interval = interval  # interval representing employee's working hours
+        # index of the list containing working hours of this employee
+        self.employeeIndex = employeeIndex
+        self.intervalIndex = intervalIndex  # index of the interval in the employee list
+
+    def __lt__(self, other):
+        # min heap based on meeting.end
+        return self.interval.start < other.interval.start
+
+
+def find_employee_free_time(schedule):
+    if schedule is None:
+        return []
+
+    n = len(schedule)
+    result, minHeap = [], []
+
+    for i in range(n):
+        heappush(minHeap, EmployeeInterval(schedule[i][0], i, 0))
+
+    previousInterval = minHeap[0].interval
+    while minHeap:
+        queueTop = heappop(minHeap)
+        # if previousInterval is not overlapping with the next interval, insert a free interval
+        if previousInterval.end < queueTop.interval.start:
+            result.append(Interval(previousInterval.end,
+                                   queueTop.interval.start))
+            previousInterval = queueTop.interval
+        else:  # overlapping intervals, update the previousInterval if needed
+            if previousInterval.end < queueTop.interval.end:
+                previousInterval = queueTop.interval
+
+        # if there are more intervals available for the same employee, add their next interval
+        employeeSchedule = schedule[queueTop.employeeIndex]
+        if len(employeeSchedule) > queueTop.intervalIndex + 1:
+            heappush(minHeap, EmployeeInterval(employeeSchedule[queueTop.intervalIndex + 1], queueTop.employeeIndex,
+                                               queueTop.intervalIndex + 1))
+
     return result
 
 
 def main():
-
     input = [[Interval(1, 3), Interval(5, 6)], [
         Interval(2, 3), Interval(6, 8)]]
     print("Free intervals: ", end='')
@@ -80,11 +109,7 @@ def main():
 
 main()
 
-
-
-
-#answer
-from __future__ import print_function
+# answer
 from heapq import *
 
 
@@ -143,7 +168,6 @@ def find_employee_free_time(schedule):
 
 
 def main():
-
     input = [[Interval(1, 3), Interval(5, 6)], [
         Interval(2, 3), Interval(6, 8)]]
     print("Free intervals: ", end='')
