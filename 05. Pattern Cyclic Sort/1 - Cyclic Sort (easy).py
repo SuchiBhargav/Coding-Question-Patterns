@@ -22,39 +22,38 @@ Input: [1, 5, 6, 4, 3, 2]
 Output: [1, 2, 3, 4, 5, 6]
 '''
 
-#mycode
+
+# mycode
 def cyclic_sort(nums):
-  # TODO: Write your code here
-  i=0
-  while i < len(nums):
-    j=nums[i]-1
-    if i != j:
-      nums[i], nums[j] = nums[j], nums[i]
-    else:
-      i += 1
-  return nums
+    i = 0
+    while i < len(nums):
+        j = nums[i] - 1
+        if i != j:
+            nums[i], nums[j] = nums[j], nums[i]
+        else:
+            i += 1
+    return nums
 
 
-#answer
+# answer
 def cyclic_sort(nums):
-  i = 0
-  while i < len(nums):
-    j = nums[i] - 1
-    if nums[i] != nums[j]:
-      nums[i], nums[j] = nums[j], nums[i]  # swap
-    else:
-      i += 1
-  return nums
+    i = 0
+    while i < len(nums):
+        j = nums[i] - 1
+        if nums[i] != nums[j]:
+            nums[i], nums[j] = nums[j], nums[i]  # swap
+        else:
+            i += 1
+    return nums
 
 
 def main():
-  print(cyclic_sort([3, 1, 5, 4, 2]))
-  print(cyclic_sort([2, 6, 4, 3, 1, 5]))
-  print(cyclic_sort([1, 5, 6, 4, 3, 2]))
+    print(cyclic_sort([3, 1, 5, 4, 2]))
+    print(cyclic_sort([2, 6, 4, 3, 1, 5]))
+    print(cyclic_sort([1, 5, 6, 4, 3, 2]))
 
 
 main()
-
 
 '''
 Time complexity 
