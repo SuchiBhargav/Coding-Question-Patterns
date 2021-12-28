@@ -6,34 +6,32 @@ leads us to number ‘1’. All other (not-happy) numbers will never reach ‘1�
 Instead, they will be stuck in a cycle of numbers which does not include ‘1’.
 '''
 
-#mycode
+
+# mycode
 def find_happy_number(num):
-  # TODO: Write your code here
-  fast, slow = num, num
-  while True:
-    fast = square(square(fast))
-    slow = square(slow)
+    fast, slow = num, num
+    while True:
+        fast = square(square(fast))
+        slow = square(slow)
+        if fast == slow:
+            break
 
-    if fast == slow:
-      break
-
-  return slow == 1
+    return slow == 1
 
 def square(num):
-  square_num = 0
-  while num  > 0:
-    square_num += (num % 10) ** 2
-    num = num // 10
-  return square_num
+    square_num = 0
+    while num > 0:
+        square_num += (num % 10) ** 2
+        num = num // 10
+    return square_num
 
 
 def main():
-  print(find_happy_number(23))
-  print(find_happy_number(12))
+    print(find_happy_number(23))
+    print(find_happy_number(12))
 
 
 main()
-
 
 '''
 Time Complexity #
