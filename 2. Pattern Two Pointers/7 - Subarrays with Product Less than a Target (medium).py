@@ -15,36 +15,27 @@ Output: [8], [2], [8, 2], [6], [2, 6], [5], [6, 5]
 Explanation: There are seven contiguous subarrays whose product is less than the target.
 '''
 
+from collections import deque
+
 
 # mycode
 def find_subarrays(arr, target):
-    result = []
-    product = 1
-    win_start = 0
+    left, product, result = 0, 1, []
 
-    for win_end in range(len(arr)):
+    for right in range(len(arr)):
+        product *= arr[right]
+        while product >= target and left < len(arr):
+            product /= arr[left]
+            left += 1
 
-        product *= arr[win_end]
-        print(product)
-
-        while product >= target and win_start < len(arr):
-            product /= arr[win_start]
-            win_start += 1
-
-        if product < target:
-            temp_i = []
-            for i in range(win_end, win_start - 1, -1):
-                temp_i.append(arr[i])
-                temp = temp_i.copy()
-                result.append(temp)
-
+        temp_list = deque()
+        for i in reversed(range(left, right+1)):
+            temp_list.appendleft(arr[i])
+            result.append(list(temp_list))
     return result
 
 
 # answer
-from collections import deque
-
-
 def find_subarrays(arr, target):
     result = []
     product = 1

@@ -31,79 +31,71 @@ Explanation: The whole array needs to be sorted.
 '''
 
 
-#mycode 
-import math
-
+# mycode
 def shortest_window_sort(arr):
-  # TODO: Write your code here
+    left, right = 1, len(arr) - 1
+    max_num, min_num = float("-inf"), float("inf")
 
-  left, right = 1, len(arr) -1 
-  max_num, min_num = -math.inf, math.inf
+    while left < len(arr) - 1 and arr[left] < arr[left + 1]:
+        left += 1
 
-  while left < len(arr)-1  and arr[left] < arr[left+1]:
-    left += 1
-  
-  while right > 0 and arr[right] > arr[right-1]:
-    right -= 1
-  
-  for i in range(left, right+1):
-    max_num = max(max_num, arr[i])
-    min_num = min(min_num, arr[i])
-  
-  for i in range(left,-1,-1):
-    if arr[i] >= min_num:
-      left = i
-  
-  for i in range(right, len(arr)):
-    if arr[i] <= max_num:
-      right = i
+    while right > 0 and arr[right] > arr[right - 1]:
+        right -= 1
 
-  if right == 0:
-    return 0
+    for i in range(left, right + 1):
+        max_num = max(max_num, arr[i])
+        min_num = min(min_num, arr[i])
 
-  return right-left+1
+    for i in reversed(range(left)):
+        if arr[i] < min_num:
+            left = i
+
+    for i in range(right, len(arr)):
+        if arr[i] > max_num:
+            right = i
+
+    return right - left + 1 if right != 0 else 0
 
 
-
-#answer
+# answer
 import math
 
 
 def shortest_window_sort(arr):
-  low, high = 0, len(arr) - 1
-  # find the first number out of sorting order from the beginning
-  while (low < len(arr) - 1 and arr[low] <= arr[low + 1]):
-    low += 1
+    low, high = 0, len(arr) - 1
+    # find the first number out of sorting order from the beginning
+    while (low < len(arr) - 1 and arr[low] <= arr[low + 1]):
+        low += 1
 
-  if low == len(arr) - 1:  # if the array is sorted
-    return 0
+    if low == len(arr) - 1:  # if the array is sorted
+        return 0
 
-  # find the first number out of sorting order from the end
-  while (high > 0 and arr[high] >= arr[high - 1]):
-    high -= 1
+    # find the first number out of sorting order from the end
+    while (high > 0 and arr[high] >= arr[high - 1]):
+        high -= 1
 
-  # find the maximum and minimum of the subarray
-  subarray_max = -math.inf
-  subarray_min = math.inf
-  for k in range(low, high+1):
-    subarray_max = max(subarray_max, arr[k])
-    subarray_min = min(subarray_min, arr[k])
+    # find the maximum and minimum of the subarray
+    subarray_max = -math.inf
+    subarray_min = math.inf
+    for k in range(low, high + 1):
+        subarray_max = max(subarray_max, arr[k])
+        subarray_min = min(subarray_min, arr[k])
 
-  # extend the subarray to include any number which is bigger than the minimum of the subarray
-  while (low > 0 and arr[low-1] > subarray_min):
-    low -= 1
-  # extend the subarray to include any number which is smaller than the maximum of the subarray
-  while (high < len(arr)-1 and arr[high+1] < subarray_max):
-    high += 1
+    # extend the subarray to include any number which is bigger than the minimum of the subarray
+    while (low > 0 and arr[low - 1] > subarray_min):
+        low -= 1
+    # extend the subarray to include any number which is smaller than the maximum of the subarray
+    while (high < len(arr) - 1 and arr[high + 1] < subarray_max):
+        high += 1
 
-  return high - low + 1
+    return high - low + 1
 
 
 def main():
-  print(shortest_window_sort([1, 2, 5, 3, 7, 10, 9, 12]))
-  print(shortest_window_sort([1, 3, 2, 0, -1, 7, 10]))
-  print(shortest_window_sort([1, 2, 3]))
-  print(shortest_window_sort([3, 2, 1]))
+    print(shortest_window_sort([1, 2, 5, 3, 7, 10, 9, 12]))
+    print(shortest_window_sort([1, 3, 2, 0, -1, 7, 10]))
+    print(shortest_window_sort([1, 2, 3]))
+    print(shortest_window_sort([3, 2, 1]))
 
 
 main()
