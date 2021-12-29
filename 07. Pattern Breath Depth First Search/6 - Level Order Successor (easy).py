@@ -1,9 +1,7 @@
 '''
-Problem Challenge 1
-
-Connect All Level Order Siblings (medium) 
-Given a binary tree, connect each node with its level order successor. 
-The last node of each level should point to the first node of the next level.
+Problem Statement 
+Given a binary tree and a node, find the level order successor of the given node in the tree. 
+The level order successor is the node that appears right after the given node in the level order traversal.
 '''
 
 # mycode
@@ -13,34 +11,26 @@ from collections import deque
 class TreeNode:
     def __init__(self, val):
         self.val = val
-        self.left, self.right, self.next = None, None, None
-
-    # tree traversal using 'next' pointer
-    def print_tree(self):
-        print("Traversal using 'next' pointer: ", end='')
-        current = self
-        while current:
-            print(str(current.val) + " ", end='')
-            current = current.next
+        self.left, self.right = None, None
 
 
-def connect_all_siblings(root):
+def find_successor(root, key):
     if root is None:
-        return
+        return None
 
     queue = deque()
     queue.append(root)
-    currentNode, previousNode = None, None
     while queue:
         currentNode = queue.popleft()
-        if previousNode:
-            previousNode.next = currentNode
-        previousNode = currentNode
-
         if currentNode.left:
             queue.append(currentNode.left)
         if currentNode.right:
             queue.append(currentNode.right)
+
+        if currentNode.val == key:
+            break
+
+    return queue[0] if queue else None
 
 
 def main():
@@ -50,8 +40,12 @@ def main():
     root.left.left = TreeNode(9)
     root.right.left = TreeNode(10)
     root.right.right = TreeNode(5)
-    connect_all_siblings(root)
-    root.print_tree()
+    result = find_successor(root, 12)
+    if result:
+        print(result.val)
+    result = find_successor(root, 10)
+    if result:
+        print(result.val)
 
 
 main()
@@ -63,35 +57,28 @@ from collections import deque
 class TreeNode:
     def __init__(self, val):
         self.val = val
-        self.left, self.right, self.next = None, None, None
-
-    # tree traversal using 'next' pointer
-    def print_tree(self):
-        print("Traversal using 'next' pointer: ", end='')
-        current = self
-        while current:
-            print(str(current.val) + " ", end='')
-            current = current.next
+        self.left, self.right = None, None
 
 
-def connect_all_siblings(root):
+def find_successor(root, key):
     if root is None:
-        return
+        return None
 
     queue = deque()
     queue.append(root)
-    currentNode, previousNode = None, None
     while queue:
         currentNode = queue.popleft()
-        if previousNode:
-            previousNode.next = currentNode
-        previousNode = currentNode
-
         # insert the children of current node in the queue
         if currentNode.left:
             queue.append(currentNode.left)
         if currentNode.right:
             queue.append(currentNode.right)
+
+        # break if we have found the key
+        if currentNode.val == key:
+            break
+
+    return queue[0] if queue else None
 
 
 def main():
@@ -101,14 +88,18 @@ def main():
     root.left.left = TreeNode(9)
     root.right.left = TreeNode(10)
     root.right.right = TreeNode(5)
-    connect_all_siblings(root)
-    root.print_tree()
+    result = find_successor(root, 12)
+    if result:
+        print(result.val)
+    result = find_successor(root, 9)
+    if result:
+        print(result.val)
 
 
 main()
 
 '''
-Time complexity 
+Time complexity
 The time complexity of the above algorithm is O(N), where ‘N’ is the total number of nodes in the tree. 
 This is due to the fact that we traverse each node once.
 
