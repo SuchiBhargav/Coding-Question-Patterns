@@ -12,35 +12,37 @@ Input: 7, 9, 7
 Output: 9
 '''
 
-#mycode
-def find_single_number(arr):
-  # TODO: Write your code here
-  s=0
 
-  for i in arr:
-    s=s^i
-  return s
+# mycode
+def find_single_number(arr):
+    num = 0
+    for i in arr:
+        num ^= i
+    return num
+
 
 def main():
     arr = [1, 4, 2, 1, 3, 2, 3]
     print(find_single_number(arr))
 
+
 main()
 
 
-#answer
+# answer
 def find_single_number(arr):
-  num = 0
-  for i in arr:
-      num ^= i
-  return num
+    num = 0
+    for i in arr:
+        num ^= i
+    return num
+
 
 def main():
     arr = [1, 4, 2, 1, 3, 2, 3]
     print(find_single_number(arr))
 
-main()
 
+main()
 
 '''
 Time Complexity: 

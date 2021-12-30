@@ -39,47 +39,39 @@ Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]. 
 '''
 
 
-#mycode
+# mycode
 def flip_and_invert_image(matrix):
-  #TODO: Write your code here.
+    C = len(matrix)
+    for row in matrix:
+        for i in range((C + 1) // 2):
+            row[i], row[C - i - 1] = row[C - i - 1] ^ 1, row[i] ^ 1
+    return matrix
 
-  
-  
-  for i in range(len(matrix)):
-    start, end = 0, len(matrix[i])-1
-    while start <= end:
-      temp = matrix[i][end]^1
-      matrix[i][end] = matrix[i][start]^1
-      matrix[i][start] = temp
-      end -=1
-      start +=1
-      
-  return matrix
 
 def main():
-  print(flip_and_invert_image([[1,0,1], [1,1,1], [0,1,1]]))
-  print(flip_and_invert_image([[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]))
+    print(flip_and_invert_image([[1, 0, 1], [1, 1, 1], [0, 1, 1]]))
+    print(flip_and_invert_image([[1, 1, 0, 0], [1, 0, 0, 1], [0, 1, 1, 1], [1, 0, 1, 0]]))
+
 
 main()
 
 
-
-#answer
+# answer
 def flip_an_invert_image(matrix):
-  C = len(matrix)
-  for row in matrix:
-    for i in range((C+1)//2):
-      row[i], row[C - i - 1] = row[C - i - 1] ^ 1, row[i] ^ 1
-      
-  return matrix
+    C = len(matrix)
+    for row in matrix:
+        for i in range((C + 1) // 2):
+            row[i], row[C - i - 1] = row[C - i - 1] ^ 1, row[i] ^ 1
+
+    return matrix
+
 
 def main():
-    print(flip_an_invert_image([[1,0,1], [1,1,1], [0,1,1]]))
-    print(flip_an_invert_image([[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]))
+    print(flip_an_invert_image([[1, 0, 1], [1, 1, 1], [0, 1, 1]]))
+    print(flip_an_invert_image([[1, 1, 0, 0], [1, 0, 0, 1], [0, 1, 1, 1], [1, 0, 1, 0]]))
+
 
 main()
-
-
 
 '''
 Time Complexity 
