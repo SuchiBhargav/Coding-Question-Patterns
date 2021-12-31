@@ -19,108 +19,93 @@ Output: 5
 Explanation: a -> b -> idle -> idle -> a
 '''
 
-#mycode
+# mycode
+import collections
 from heapq import *
 from collections import deque
 
-def schedule_tasks(tasks, k):
-  intervalCount = 0
-  # TODO: Write your code here
-  mapping = {}
-  for i in tasks:
-    mapping[i] = mapping.get(i,0) + 1
-  
-  heap = []
-  for i, freq in mapping.items():
-    heappush(heap,(-freq,i))
-  
-  queue = deque()
-  char = ''
-  while heap:
-      freq, i = heappop(heap)
-      
-      intervalCount += 1
-      if i == char:
-        print(k-len_queue)
-        intervalCount += (k-len_queue)
-      queue.append((freq,i))
-      
-      
-      
-      if len(queue) > k:
-        freq, i = queue.popleft()
-        if -freq > 1:
-          char = i
-          heappush(heap,(freq+1,i))
-      
-      if heap == [] and queue != []:
-        freq, i = queue.popleft()
-        if -freq > 1:
-          char = i
-          heappush(heap,(freq+1,i))
-      
-      len_queue = len(queue) 
 
-  return intervalCount
+def schedule_tasks(tasks, k):
+    intervalCount = 0
+    taskFrequencyMap = collections.Counter(tasks)
+
+    maxHeap = []
+    for char, frequency in taskFrequencyMap.items():
+        heappush(maxHeap, (-frequency, char))
+
+    while maxHeap:
+        waitList = []
+        n = k + 1  # try to execute as many as 'k+1' tasks from the max-heap
+        while n > 0 and maxHeap:
+            intervalCount += 1
+            frequency, char = heappop(maxHeap)
+            if -frequency > 1:
+                waitList.append((frequency + 1, char))
+            n -= 1
+
+        # put all the waiting list back on the heap
+        for frequency, char in waitList:
+            heappush(maxHeap, (frequency, char))
+
+        if maxHeap:
+            intervalCount += n  # we'll be having 'n' idle intervals for the next iteration
+
+    return intervalCount
 
 
 def main():
-  print("Minimum intervals needed to execute all tasks: " +
-        str(schedule_tasks(['a', 'a', 'a', 'b', 'c', 'c'], 2)))
-  print("Minimum intervals needed to execute all tasks: " +
-        str(schedule_tasks(['a', 'b', 'a'], 3)))
+    print("Minimum intervals needed to execute all tasks: " +
+          str(schedule_tasks(['a', 'a', 'a', 'b', 'c', 'c'], 2)))
+    print("Minimum intervals needed to execute all tasks: " +
+          str(schedule_tasks(['a', 'b', 'a'], 3)))
 
 
 main()
 
-
-
-#answer
+# answer
 from heapq import *
 
 
 def schedule_tasks(tasks, k):
-  intervalCount = 0
-  taskFrequencyMap = {}
-  for char in tasks:
-    taskFrequencyMap[char] = taskFrequencyMap.get(char, 0) + 1
+    intervalCount = 0
+    taskFrequencyMap = {}
+    for char in tasks:
+        taskFrequencyMap[char] = taskFrequencyMap.get(char, 0) + 1
 
-  maxHeap = []
-  # add all tasks to the max heap
-  for char, frequency in taskFrequencyMap.items():
-    heappush(maxHeap, (-frequency, char))
+    maxHeap = []
+    # add all tasks to the max heap
+    for char, frequency in taskFrequencyMap.items():
+        heappush(maxHeap, (-frequency, char))
 
-  while maxHeap:
-    waitList = []
-    n = k + 1  # try to execute as many as 'k+1' tasks from the max-heap
-    while n > 0 and maxHeap:
-      intervalCount += 1
-      frequency, char = heappop(maxHeap)
-      if -frequency > 1:
-        # decrement the frequency and add to the waitList
-        waitList.append((frequency+1, char))
-      n -= 1
+    while maxHeap:
+        waitList = []
+        n = k + 1  # try to execute as many as 'k+1' tasks from the max-heap
+        while n > 0 and maxHeap:
+            intervalCount += 1
+            frequency, char = heappop(maxHeap)
+            if -frequency > 1:
+                # decrement the frequency and add to the waitList
+                waitList.append((frequency + 1, char))
+            n -= 1
 
-    # put all the waiting list back on the heap
-    for frequency, char in waitList:
-      heappush(maxHeap, (frequency, char))
+        # put all the waiting list back on the heap
+        for frequency, char in waitList:
+            heappush(maxHeap, (frequency, char))
 
-    if maxHeap:
-      intervalCount += n  # we'll be having 'n' idle intervals for the next iteration
+        if maxHeap:
+            intervalCount += n  # we'll be having 'n' idle intervals for the next iteration
 
-  return intervalCount
+    return intervalCount
 
 
 def main():
-  print("Minimum intervals needed to execute all tasks: " +
-        str(schedule_tasks(['a', 'a', 'a', 'b', 'c', 'c'], 2)))
-  print("Minimum intervals needed to execute all tasks: " +
-        str(schedule_tasks(['a', 'b', 'a'], 3)))
+    print("Minimum intervals needed to execute all tasks: " +
+          str(schedule_tasks(['a', 'a', 'a', 'b', 'c', 'c'], 2)))
+    print("Minimum intervals needed to execute all tasks: " +
+          str(schedule_tasks(['a', 'b', 'a'], 3)))
 
 
 main()
-
-
 
 '''
 
