@@ -14,38 +14,45 @@ Output: 7
 Explanation: The 5th smallest number in the matrix is 7.
 '''
 
-#mycode
+# mycode
 from heapq import *
 
-def find_Kth_smallest(matrix, k):
-  number = -1
-  # TODO: Write your code here
-  result = []
-  for i in range(len(matrix)):
-    heappush(result,(matrix[i][0], 0, matrix[i]))
-  
-  count = 0
-  while result:
-    number, i, cur_list = heappop(result)
-    count += 1
-    if count == k:
-      return number
-    
-    if i+1 < len(cur_list):
-      heappush(result, (cur_list[i+1],i+1,cur_list))
 
+def find_Kth_smallest(matrix, k):
+    result = []
+    for row in matrix:
+        heappush(result, (row[0], 0, row))
+
+    count = 0
+    while result:
+        number, i, cur_list = heappop(result)
+        count += 1
+        if count == k:
+            return number
+
+        if i + 1 < len(cur_list):
+            heappush(result, (cur_list[i + 1], i + 1, cur_list))
 
 
 def main():
-  print("Kth smallest number is: " +
-        str(find_Kth_smallest([[2, 6, 8], [3, 7, 10], [5, 8, 11]], 5)))
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[2, 6, 8], [3, 7, 10], [5, 8, 11]], 5)))
 
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[1, 4], [2, 5]], 2)))
+
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[-5]], 1)))
+
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[2, 6, 8], [3, 7, 10], [5, 8, 11]], 5)))
+
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[1, 5, 9], [10, 11, 13], [12, 13, 15]], 8)))
 
 main()
 
-
-
-#answer
+# answer
 from heapq import *
 
 
@@ -65,8 +72,8 @@ def find_Kth_smallest(matrix, k):
         numberCount += 1
         if numberCount == k:
             break
-        if len(row) > i+1:
-            heappush(minHeap, (row[i+1], i+1, row))
+        if len(row) > i + 1:
+            heappush(minHeap, (row[i + 1], i + 1, row))
     return number
 
 
@@ -76,7 +83,6 @@ def main():
 
 
 main()
-
 
 '''
 Time complexity 
@@ -89,7 +95,6 @@ Space complexity
 The space complexity will be O(N) because, in the worst case, 
 our min-heap will be storing one number from each of the ‘N’ rows.
 '''
-
 
 '''
 An Alternate Solution 
@@ -109,61 +114,59 @@ An alternative could be to apply the Binary Search on the “number range” ins
 '''
 
 
-
 def find_Kth_smallest(matrix, k):
-  n = len(matrix)
-  start, end = matrix[0][0], matrix[n - 1][n - 1]
-  while start < end:
-    mid = start + (end - start) / 2
-    smaller, larger = (matrix[0][0], matrix[n - 1][n - 1])
+    n = len(matrix)
+    start, end = matrix[0][0], matrix[n - 1][n - 1]
+    while start < end:
+        mid = start + (end - start) / 2
+        smaller, larger = (matrix[0][0], matrix[n - 1][n - 1])
 
-    count, smaller, larger = count_less_equal(matrix, mid, smaller, larger)
+        count, smaller, larger = count_less_equal(matrix, mid, smaller, larger)
 
-    if count == k:
-      return smaller
-    if count < k:
-      start = larger  # search higher
-    else:
-      end = smaller  # search lower
+        if count == k:
+            return smaller
+        if count < k:
+            start = larger  # search higher
+        else:
+            end = smaller  # search lower
 
-  return start
-  
+    return start
+
 
 def count_less_equal(matrix, mid, smaller, larger):
-  count, n = 0, len(matrix)
-  row, col = n - 1, 0
-  while row >= 0 and col < n:
-    if matrix[row][col] > mid:
-      # as matrix[row][col] is bigger than the mid, let's keep track of the
-      # smallest number greater than the mid
-      larger = min(larger, matrix[row][col])
-      row -= 1
-    else:
-      # as matrix[row][col] is less than or equal to the mid, let's keep track of the
-      # biggest number less than or equal to the mid
-      smaller = max(smaller, matrix[row][col])
-      count += row + 1
-      col += 1
+    count, n = 0, len(matrix)
+    row, col = n - 1, 0
+    while row >= 0 and col < n:
+        if matrix[row][col] > mid:
+            # as matrix[row][col] is bigger than the mid, let's keep track of the
+            # smallest number greater than the mid
+            larger = min(larger, matrix[row][col])
+            row -= 1
+        else:
+            # as matrix[row][col] is less than or equal to the mid, let's keep track of the
+            # biggest number less than or equal to the mid
+            smaller = max(smaller, matrix[row][col])
+            count += row + 1
+            col += 1
 
-  return count, smaller, larger
+    return count, smaller, larger
 
 
 def main():
-  print("Kth smallest number is: " +
-        str(find_Kth_smallest([[1, 4], [2, 5]], 2)))
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[1, 4], [2, 5]], 2)))
 
-  print("Kth smallest number is: " +
-        str(find_Kth_smallest([[-5]], 1)))
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[-5]], 1)))
 
-  print("Kth smallest number is: " +
-        str(find_Kth_smallest([[2, 6, 8], [3, 7, 10], [5, 8, 11]], 5)))
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[2, 6, 8], [3, 7, 10], [5, 8, 11]], 5)))
 
-  print("Kth smallest number is: " +
-        str(find_Kth_smallest([[1, 5, 9], [10, 11, 13], [12, 13, 15]], 8)))
+    print("Kth smallest number is: " +
+          str(find_Kth_smallest([[1, 5, 9], [10, 11, 13], [12, 13, 15]], 8)))
 
 
 main()
-
 
 '''
 Time complexity 
