@@ -1,6 +1,6 @@
 # [Grokking-the-Coding-Interview-Patterns-for-Coding-Questions](https://www.educative.io/courses/grokking-the-coding-interview)
 
-## 1. Pattern: Sliding Window
+## 1. Pattern: Sliding Window problems
 - Maximum Sum Subarray of Size K (easy)
 - Smallest Subarray with a given sum (easy)
 - Longest Substring with K Distinct Characters (medium)
